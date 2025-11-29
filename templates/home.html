@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediction Result | Algerian Forest Fire</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3c 100%);
+        color: #f5f5f5;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+      }
+
+      .header {
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        color: #ffcc00;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        color: #e0e0e0;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .result-card {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 25px 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .result-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+      }
+
+      .prediction-text {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 15px 0;
+        color: #ffcc00;
+      }
+
+      .prediction-value {
+        font-size: 42px;
+        font-weight: 700;
+        margin: 20px 0;
+        color: #ff9500;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .risk-level {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin-top: 10px;
+        font-size: 18px;
+      }
+
+      .low-risk {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .moderate-risk {
+        background-color: #ffc107;
+        color: #333;
+      }
+
+      .high-risk {
+        background-color: #ff9800;
+        color: white;
+      }
+
+      .very-high-risk {
+        background-color: #f44336;
+        color: white;
+      }
+
+      .extreme-risk {
+        background-color: #9c27b0;
+        color: white;
+      }
+
+      .back-btn {
+        display: inline-block;
+        padding: 14px 30px;
+        background: linear-gradient(to right, #ff9500, #ffcc00);
+        border: none;
+        border-radius: 10px;
+        color: #2d5a3c;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(255, 149, 0, 0.4);
+      }
+
+      .back-btn:hover {
+        background: linear-gradient(to right, #ffcc00, #ff9500);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 149, 0, 0.6);
+      }
+
+      .info-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .info-section h3 {
+        color: #ffcc00;
+        margin-bottom: 15px;
+      }
+
+      .info-section p {
+        color: #e0e0e0;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 25px;
+        }
+
+        .header h1 {
+          font-size: 26px;
+        }
+
+        .prediction-value {
+          font-size: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Prediction Result</h1>
+        <p>Fire Weather Index Analysis for Algerian Forests</p>
+      </div>
+
+      <div class="result-card">
+        {% if results is not none %}
+        <div class="result-icon">
+          {% if results < 10 %} 🌱 {% elif results < 20 %} 🔥 {% elif results <
+          30 %} 🧯 {% else %} 🚨 {% endif %}
+        </div>
+
+        <div class="prediction-text">The FWI Prediction is:</div>
+        <div class="prediction-value">{{ results }}</div>
+
+        <div
+          class="risk-level {% if results < 10 %}low-risk {% elif results < 20 %}moderate-risk {% elif results < 30 %}high-risk {% elif results < 40 %}very-high-risk {% else %}extreme-risk {% endif %}"
+        >
+          {% if results < 10 %}Low Risk {% elif results < 20 %}Moderate Risk {%
+          elif results < 30 %}High Risk {% elif results < 40 %}Very High Risk {%
+          else %}Extreme Risk {% endif %}
+        </div>
+        {% else %}
+        <div class="result-icon">❓</div>
+        <div class="prediction-text">No prediction available</div>
+        <p>Please go back and submit the form with valid data.</p>
+        {% endif %}
+      </div>
+
+      <a href="{{ url_for('welcome') }}" class="back-btn"
+        >Make Another Prediction</a
+      >
+
+      <div class="info-section">
+        <h3>About Fire Weather Index (FWI)</h3>
+        <p>
+          The FWI is a numerical rating of fire intensity that combines both
+          fixed and variable factors affecting fire behavior. It's used
+          worldwide to assess the potential severity of a forest fire.
+        </p>
+        <p>
+          This prediction is based on the Algerian Forest Fire dataset and
+          machine learning algorithms.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

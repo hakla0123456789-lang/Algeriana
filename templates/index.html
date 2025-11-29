@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Algerian Forest Fire Prediction</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3c 100%);
+        color: #f5f5f5;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #ffcc00;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        color: #e0e0e0;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #ffcc00;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #ffcc00;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.3);
+      }
+
+      .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(to right, #ff9500, #ffcc00);
+        border: none;
+        border-radius: 10px;
+        color: #2d5a3c;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(255, 149, 0, 0.4);
+      }
+
+      .submit-btn:hover {
+        background: linear-gradient(to right, #ffcc00, #ff9500);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 149, 0, 0.6);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .forest-icon {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .forest-icon i {
+        font-size: 50px;
+        color: #ffcc00;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .info-text {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #b0b0b0;
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="forest-icon">
+        <!-- Forest icon using Unicode character -->
+        <i>🌲</i>
+      </div>
+      <div class="header">
+        <h1>Algerian Forest Fire Prediction</h1>
+        <p>
+          Enter environmental data to predict fire risk in Algerian forest
+          regions
+        </p>
+      </div>
+
+      <form action="{{url_for('prediction')}}" method="post">
+        <div class="form-group">
+          <label for="Temperature">Temperature (°C)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Temperature"
+            name="Temperature"
+            placeholder="Enter temperature"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="RH">Relative Humidity (%)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="RH"
+            name="RH"
+            placeholder="Enter relative humidity"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="Ws">Wind Speed (km/h)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Ws"
+            name="Ws"
+            placeholder="Enter wind speed"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="Rain">Rainfall (mm)</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Rain"
+            name="Rain"
+            placeholder="Enter rainfall"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="FFMC">Fine Fuel Moisture Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="FFMC"
+            name="FFMC"
+            placeholder="Enter FFMC"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="DMC">Duff Moisture Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="DMC"
+            name="DMC"
+            placeholder="Enter DMC"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="ISI">Initial Spread Index</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ISI"
+            name="ISI"
+            placeholder="Enter ISI"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="Classes">Fire Classes</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Classes"
+            name="Classes"
+            placeholder="Enter fire classes"
+            required="required"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="Region">Region</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Region"
+            name="Region"
+            placeholder="Enter region"
+            required="required"
+          />
+        </div>
+
+        <button type="submit" class="submit-btn">Predict Fire Risk</button>
+      </form>
+
+      <div class="info-text">
+        <p>
+          This system uses machine learning to predict forest fire risk based on
+          environmental factors.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
