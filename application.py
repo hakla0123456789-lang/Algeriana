@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-
+import os
 
 ridge_model = pickle.load(open("models/ridge.pkl","rb"))
 scaler_model =pickle.load(open("models/scaler.pkl","rb"))
@@ -51,7 +51,9 @@ def prediction():
         
         
 
-if __name__=="__main__":
-    app.run(host = "0.0.0.0")
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
+
 
 
