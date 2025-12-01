@@ -3,4 +3,4 @@ services:
     runtime: python
     pythonVersion: 3.10
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn application:app
+    startCommand: gunicorn application:application
